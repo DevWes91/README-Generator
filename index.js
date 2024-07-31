@@ -100,8 +100,29 @@ function generateREADME(answers) {
   `;
   }
 
+  // Function to get license badge
+function getLicenseBadge(license) {
+    const badges = {
+      'MIT': '[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)',
+      'Apache 2.0': '[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)',
+      'GPL 3.0': '[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)',
+      'BSD 3-Clause': '[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)',
+      'None': '',
+    };
+    return badges[license] || '';
+  }
+
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data, callback) {
+    fs.writeFile(fileName, data, (err) => {
+      if (err) {
+        console.error('An error occurred while writing the file:', err);
+        return callback(err);
+      }
+      console.log('README.md successfully generated!');
+      callback(null);
+    });
+  }
 
 // TODO: Create a function to initialize app
 function init() {}
