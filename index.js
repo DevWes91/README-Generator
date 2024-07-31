@@ -25,10 +25,10 @@ const questions = [ {
 },
 {
     type: 'list',
-    input: 'license',
-    message: 'Choose a license for your project',
-    choices: ['MIT', 'Apache 2.0', 'GPL 3.0', 'BSD 3-Clause', 'None'],
-},
+    name: 'license',
+    message: 'Choose a license for your project:',
+    choices: ['MIT', 'Apache 2.0', 'GPL 3.0', 'BSD 3-Clause', 'None']
+  },
 {
     type: 'input',
     name: 'contributing',
@@ -53,52 +53,53 @@ const questions = [ {
 
 // Function to generate README content
 function generateREADME(answers) {
-    return `
-  # ${answers.title}
-  
-  ${getLicenseBadge(answers.license)}
-  
-  ## Description
-  
-  ${answers.description}
-  
-  ## Table of Contents
-  
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [License](#license)
-  - [Contributing](#contributing)
-  - [Tests](#tests)
-  - [Questions](#questions)
-  
-  ## Installation
-  
-  ${answers.installation}
-  
-  ## Usage
-  
-  ${answers.usage}
-  
-  ## License
-  
-  This project is licensed under the ${answers.license} license.
-  
-  ## Contributing
-  
-  ${answers.contributing}
-  
-  ## Tests
-  
-  ${answers.tests}
-  
-  ## Questions
-  
-  For any questions, please contact me:
-  
-  GitHub: [${answers.github}](https://github.com/${answers.github})
-  Email: ${answers.email}
-  `;
-  }
+    return [
+        '# ' + answers.title,
+        '',
+        getLicenseBadge(answers.license),
+        '',
+        '## Description',
+        '',
+        answers.description,
+        '',
+        '## Table of Contents',
+        '',
+        '- [Installation](#installation)',
+        '- [Usage](#usage)',
+        '- [License](#license)',
+        '- [Contributing](#contributing)',
+        '- [Tests](#tests)',
+        '- [Questions](#questions)',
+        '',
+        '## Installation',
+        '',
+        answers.installation,
+        '',
+        '## Usage',
+        '',
+        answers.usage,
+        '',
+        '## License',
+        '',
+        'This project is licensed under the ' + answers.license + ' license.',
+        '',
+        '## Contributing',
+        '',
+        answers.contributing,
+        '',
+        '## Tests',
+        '',
+        answers.tests,
+        '',
+        '## Questions',
+        '',
+        'For any questions, please contact me:',
+        '',
+        'GitHub: [' + answers.github + '](https://github.com/' + answers.github + ')',
+        'Email: ' + answers.email
+    ].join('\n');
+}
+
 
   // Function to get license badge
 function getLicenseBadge(license) {
@@ -125,7 +126,20 @@ function writeToFile(fileName, data, callback) {
   }
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer.prompt(questions)
+    .then((answers) => {
+      const readmeContent = generateREADME(answers);
+      writeToFile('README.md', readmeContent, (err) => {
+        if (err) {
+          console.error('Failed to write README.md');
+        }
+      });
+    })
+    .catch((error) => {
+      console.error('An error occurred:', error);
+    });
+}
 
 // Function call to initialize app
 init();
