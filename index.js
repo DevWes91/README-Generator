@@ -51,6 +51,55 @@ const questions = [ {
 },
 ];
 
+// Function to generate README content
+function generateREADME(answers) {
+    return `
+  # ${answers.title}
+  
+  ${getLicenseBadge(answers.license)}
+  
+  ## Description
+  
+  ${answers.description}
+  
+  ## Table of Contents
+  
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Tests](#tests)
+  - [Questions](#questions)
+  
+  ## Installation
+  
+  ${answers.installation}
+  
+  ## Usage
+  
+  ${answers.usage}
+  
+  ## License
+  
+  This project is licensed under the ${answers.license} license.
+  
+  ## Contributing
+  
+  ${answers.contributing}
+  
+  ## Tests
+  
+  ${answers.tests}
+  
+  ## Questions
+  
+  For any questions, please contact me:
+  
+  GitHub: [${answers.github}](https://github.com/${answers.github})
+  Email: ${answers.email}
+  `;
+  }
+
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {}
 
